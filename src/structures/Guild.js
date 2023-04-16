@@ -216,7 +216,7 @@ class Guild extends Base {
      * @type {boolean}
      * @deprecated
      */
-    this.embedEnabled = data.embed_enabled;
+    this.embedEnabled = data.widget_enabled;
 
     /**
      * The type of premium tier:
@@ -257,13 +257,13 @@ class Guild extends Base {
       this.widgetChannelID = data.widget_channel_id;
     }
 
-    if (typeof data.embed_channel_id !== 'undefined') {
+    if (typeof data.widget_channel_id !== 'undefined') {
       /**
        * The embed channel ID, if enabled
        * @type {?string}
        * @deprecated
        */
-      this.embedChannelID = data.embed_channel_id;
+      this.embedChannelID = data.widget_channel_id;
     }
 
     /**
@@ -710,8 +710,6 @@ class Guild extends Base {
   /**
    * Fetches a collection of integrations to this guild.
    * Resolves with a collection mapping integrations by their ids.
-   * @param {Object} [options] Options for fetching integrations
-   * @param {boolean} [options.includeApplications] Whether to include bot and Oauth2 webhook integrations
    * @returns {Promise<Collection<string, Integration>>}
    * @example
    * // Fetch integrations
@@ -722,11 +720,7 @@ class Guild extends Base {
   fetchIntegrations({ includeApplications = false } = {}) {
     return this.client.api
       .guilds(this.id)
-      .integrations.get({
-        query: {
-          include_applications: includeApplications,
-        },
-      })
+      .integrations.get()
       .then(data =>
         data.reduce(
           (collection, integration) => collection.set(integration.id, new Integration(this.client, integration, this)),

@@ -159,7 +159,7 @@ class Invite extends Base {
    * @returns {Promise<Invite>}
    */
   delete(reason) {
-    return this.client.api.invites[this.code].delete({ reason }).then(() => this);
+    return this.client.api.invite[this.code].delete({ reason }).then(() => this);
   }
 
   /**

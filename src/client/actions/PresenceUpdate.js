@@ -19,7 +19,8 @@ class PresenceUpdateAction extends Action {
     let oldPresence = guild.presences.cache.get(user.id);
     if (oldPresence) oldPresence = oldPresence._clone();
     let member = guild.members.cache.get(user.id);
-    if (!member && data.status !== 'offline') {
+    // PATCH: roles field isn't sent in API v8, so don't cache incomplete members on presence change
+    if (!member && data.status !== 'offline' && data.roles) {
       member = guild.members.add({
         user,
         roles: data.roles,
