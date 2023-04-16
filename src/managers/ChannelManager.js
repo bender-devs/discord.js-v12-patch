@@ -30,6 +30,10 @@ class ChannelManager extends BaseManager {
     const channel = Channel.create(this.client, data, guild);
 
     if (!channel) {
+      if (data.type > 10) {
+        // suppress debug messages for new channel types
+        return null;
+      }
       this.client.emit(Events.DEBUG, `Failed to find guild, or unknown type for channel ${data.id} ${data.type}`);
       return null;
     }
