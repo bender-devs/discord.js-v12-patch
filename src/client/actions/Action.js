@@ -24,7 +24,8 @@ class GenericAction {
   }
 
   getPayload(data, manager, id, partialType, cache) {
-    const existing = manager ? manager.cache.get(id) : null;
+    if (!manager) return;
+    const existing = manager.cache.get(id);
     if (!existing && this.client.options.partials.includes(partialType)) {
       return manager.add(data, cache);
     }
