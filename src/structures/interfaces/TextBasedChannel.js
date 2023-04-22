@@ -339,7 +339,7 @@ class TextBasedChannel {
         );
         return message ? new Collection([[message.id, message]]) : new Collection();
       }
-      await this.client.api.channels[this.id].messages.bulk_delete.post({ data: { messages: messageIDs } });
+      await this.client.api.channels[this.id].messages['bulk-delete'].post({ data: { messages: messageIDs } });
       return messageIDs.reduce(
         (col, id) =>
           col.set(
